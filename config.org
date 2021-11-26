@@ -1,0 +1,43 @@
+#+TITLE: zEmacs (zowws's Emacs)
+#+AUTHOR: zowws
+
+* PACKAGE MANAGEMENT
+** mirrors & update
+This will add the Melpa mirror to the package-archives.
+#+begin_src emacs-lisp
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(package-refresh-contents)
+(package-initialize)
+#+end_src
+** packages
+This installs my most used packages.
+#+begin_src emacs-lisp
+(defvar zEmacs/packages
+ '(use-package evil evil-collection doom-themes doom-modeline almost-mono-themes arc-dark-theme atom-one-dark-theme atom-dark-theme blog-minimal dmenu arch-packer gh gh-md gist git magit markdown-preview-eww markdown-preview-mode ox-hugo ox-gemini rainbow-mode poly-markdown poly-org polymode pacmacs))
+(dolist (p zEmacs/packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
+#+end_src
+* EVIL
+Vim bindings.
+#+begin_src emacs-lisp
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-vsplit-window-right t)
+  (setq evil-split-window-below t)
+  (evil-mode))
+#+end_src
+** evil-collection
+Vim bindings conflict fixes.
+#+begin_src emacs-lisp
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :config
+  (evil-collection-init))
+#+end_src
